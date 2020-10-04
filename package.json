@@ -4,11 +4,16 @@
   "description": "Base de datos tienda virtual mercashop.",
   "main": "server.js",
   "scripts": {
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jhon Uribe, Jaime Cabrera, Nicolas Montanez",
   "license": "ISC",
+  "engines": {
+    "node": ">=13",
+    "yarn": ">=1.22"
+  },
   "dependencies": {
     "bcrypt": "^5.0.0",
     "busboy": "^0.3.1",

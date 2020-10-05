@@ -134,14 +134,18 @@ providerCtrl.updateProvider = async (req, res) => {
       provider.commerceType = commerceType || provider.commerceType;
       provider.webPage = webPage || provider.webPage;
       const updatedProvider = await provider.save(provider);
+      const token = jwt.sign({ id: updatedProvider._id }, process.env.SECRET);
       if (updatedProvider) {
-        res
-          .status(200)
-          .json({ message: "updatedProvider", data: updatedProvider });
+        res.status(200).json({
+          _id: newProvider._id,
+          names: newProvider.names,
+          email: newProvider.email,
+          businessName: newProvider.businessName,
+          token,
+        });
       }
     }
   } catch (error) {
-    console.log(error)
     res.status(400).json(error);
   }
 };

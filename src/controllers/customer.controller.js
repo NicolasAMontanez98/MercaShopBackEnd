@@ -77,10 +77,14 @@ customerCtrl.updateCustomer = async (req, res) => {
       customer.adress = adress || customer.adress;
       customer.userName = userName || customer.userName;
       const updatedCustomer = await customer.save(customer);
+      const token = jwt.sign({ id: updatedCustomer._id }, process.env.SECRET);
       if (updatedCustomer) {
-        res
-          .status(200)
-          .json({ message: "updatedCustomer", data: updatedCustomer });
+        res.status(200).json({
+          _id: updatedCustomer._id,
+          names: updatedCustomer.names,
+          email: updatedCustomer.email,
+          token,
+        });
       }
     }
   } catch (error) {

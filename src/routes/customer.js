@@ -10,7 +10,8 @@ const {
 } = require("../controllers/customer.controller");
 
 router.route("/").get(getCustomers);
-router.route("/:id").get(getCustomer).delete(deleteCustomer).put(updateCustomer);
+router.route("/:id").get(getCustomer);
+router.route("/actualizar/:id").put(updateCustomer);
 router.route("/activar-cuenta/:id").put(verifyAccount)
 router.route("/registro").post(checkInCustomer);
 router.route("/ingreso").post(logInCustomer);

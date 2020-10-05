@@ -103,4 +103,47 @@ providerCtrl.getProvider = async (req, res) => {
   }
 };
 
+providerCtrl.updateProvider = async (req, res) => {
+  try {
+    const provider = await Provider.findById(req.params.id);
+    const {
+      names,
+      lastNames,
+      idType,
+      idNumber,
+      email,
+      phone,
+      birthDate,
+      adress,
+      businessName,
+      nit,
+      commerceType,
+      webPage,
+    } = req.body;
+    if (provider) {
+      provider.names = names || provider.names;
+      provider.lastNames = lastNames || provider.lastNames;
+      provider.idType = idType || provider.idType;
+      provider.idNumber = idNumber || provider.idNumber;
+      provider.email = email || provider.email;
+      provider.phone = phone || provider.phone;
+      provider.birthDate = birthDate || provider.birthDate;
+      provider.adress = adress || provider.adress;
+      provider.businessName = businessName || provider.businessName;
+      provider.nit = nit || provider.nit;
+      provider.commerceType = commerceType || provider.commerceType;
+      provider.webPage = webPage || provider.webPage;
+      const updatedProvider = await provider.save(provider);
+      if (updatedProvider) {
+        res
+          .status(200)
+          .json({ message: "updatedProvider", data: updatedProvider });
+      }
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(400).json(error);
+  }
+};
+
 module.exports = providerCtrl;

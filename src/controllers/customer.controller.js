@@ -54,6 +54,7 @@ customerCtrl.checkInCustomer = async (req, res) => {
 
 customerCtrl.updateCustomer = async (req, res) => {
   try {
+    const customer = await Customer.findById(req.params.id);
     const {
       names,
       lastNames,
@@ -65,8 +66,6 @@ customerCtrl.updateCustomer = async (req, res) => {
       adress,
       userName,
     } = req.body;
-    const id = req.params.id;
-    const customer = await Customer.findById(id);
     if (customer) {
       customer.names = names || customer.names;
       customer.lastNames = lastNames || customer.lastNames;
@@ -77,23 +76,12 @@ customerCtrl.updateCustomer = async (req, res) => {
       customer.birthDate = birthDate || customer.birthDate;
       customer.adress = adress || customer.adress;
       customer.userName = userName || customer.userName;
-      const updateCustomer = await customer.save();
-      const token = jwt.sign({ id: updateCostumer._id }, process.env.SECRET);
-      res.status(200).json({
-        _id: updateCustomer._id,
-        names: updateCustomer.names,
-        lastNames: updateCustomer.lastNames,
-        idType: updateCustomer.idType,
-        idNumber: updateCustomer.idNumber,
-        email: updateCustomer.email,
-        phone: updateCustomer.phone,
-        birthDate: updateCustomer.birthDate,
-        adress: updateCustomer.adress,
-        userName: updateCustomer.userName,
-        token,
-      });
-    } else {
-      res.status(404).json({ message: "Cliente no encontrado" });
+      const updatedCustomer = await customer.save(customer);
+      if (updatedCustomer) {
+        res
+          .status(200)
+          .json({ message: "updatedCustomer", data: updatedCustomer });
+      }
     }
   } catch (error) {
     res.status(400).json(error);
